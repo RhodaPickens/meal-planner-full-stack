@@ -12,6 +12,5 @@ import java.util.List;
 @Repository
 public interface MealIdeaRepository extends JpaRepository<MealIdea, Long> {
 
-    // searches for meal ideas filtered by meal type and calories
-    List<MealIdea> findByMealTypeAndCaloriesLessThanEqual(MealType mealType, Integer calories);
+    List<MealIdea> findByUserId(Long userId);
 }
