@@ -3,9 +3,11 @@ package com.mealplanner.meal_planner_backend.dao;
 import com.mealplanner.meal_planner_backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Optional;
 
+@CrossOrigin("*")
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

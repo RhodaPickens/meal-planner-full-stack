@@ -2,6 +2,7 @@ package com.mealplanner.meal_planner_backend.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -17,9 +18,11 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "Username cannot be empty")
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    @NotBlank(message = "Password cannot be empty")
     @Column(name = "password", nullable = false)
     private String password;
 
