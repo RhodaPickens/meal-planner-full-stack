@@ -1,0 +1,72 @@
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(to right, #dbead2, #dfeafd)
+}
+
+.card {
+    background: white;
+    padding: 10px 40px 40px 40px;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.snack-form {
+    font-size: 18px;
+}
+
+.snack-input {
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+button {
+    background-color: #dbead2;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background-color: #dfeafd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+
+}
+
+.suggestions {
+    font-size: 18px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 0;
+    margin-left: 0;
+    padding-top: 20px;
+}
+
+
+

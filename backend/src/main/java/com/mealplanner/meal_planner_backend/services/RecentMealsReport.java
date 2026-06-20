@@ -17,7 +17,7 @@ public class RecentMealsReport extends Report {
 
     @Override
     public List<String> getColumns() {
-        return Arrays.asList("Date Eaten", "Meal Title");
+        return Arrays.asList("Meal Title", "Date Used");
     }
 
     @Override
@@ -26,8 +26,8 @@ public class RecentMealsReport extends Report {
 
         for (DailyPlan plan : history) {
             rows.add(Arrays.asList(
-                    plan.getPlanDate().toString(),
-                    plan.getIdea().getTitle()
+                    plan.getIdea().getTitle(),
+                    plan.getPlanDate().toString()
             ));
         }
         return rows;

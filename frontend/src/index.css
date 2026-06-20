@@ -1,0 +1,17 @@
+body {
+    font-family: "Atma", Helvetica, sans-serif;
+}
+
+input,
+button,
+textarea,
+option,
+select {
+    font-family: inherit;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 500;
+    font-size: xxx-large;
+}
