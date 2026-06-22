@@ -1,5 +1,6 @@
 body {
-    font-family: "Atma", Helvetica, sans-serif;
+  font-family: "Atma", Helvetica, sans-serif;
+  font-size: 1.125rem;
 }
 
 input,
@@ -7,11 +8,11 @@ button,
 textarea,
 option,
 select {
-    font-family: inherit;
+  font-family: inherit;
 }
 
 h1 {
-    text-align: center;
-    font-weight: 500;
-    font-size: xxx-large;
+  text-align: center;
+  font-weight: 500;
+  font-size: 2.75rem;
 }
