@@ -1,11 +1,25 @@
 export default function SnackForm({
   calories,
   setCalories,
-  hunger,
-  setHunger,
+  mealType,
+  setMealType,
 }) {
   return (
     <div className="snack-form">
+      <div className="form-group">
+        <label>Select Meal Type</label>
+        <select
+          className="input-box"
+          value={mealType}
+          onChange={(e) => setMealType(e.target.value)}
+          required
+        >
+          <option value="BREAKFAST">Breakfast</option>
+          <option value="LUNCH">Lunch</option>
+          <option value="DINNER">Dinner</option>
+          <option value="SNACK">Snack</option>
+        </select>
+      </div>
       <div className="form-group">
         <label>Enter calories available:</label>
         <input
@@ -14,18 +28,6 @@ export default function SnackForm({
           value={calories}
           onChange={(e) => setCalories(e.target.value)}
         />
-      </div>
-      <div className="form-group">
-        <label>Where are you on the hunger scale right now?</label>
-        <select
-          className="input-box"
-          value={hunger}
-          onChange={(e) => setHunger(e.target.value)}
-        >
-          <option value="low">Peckish</option>
-          <option value="medium">Hungry</option>
-          <option value="high">Starving</option>
-        </select>
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import com.mealplanner.meal_planner_backend.entities.DailyPlan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("http://localhost:5173")
 @RestController
 @RequestMapping("/api/plans")
@@ -21,6 +23,12 @@ public class DailyPlanController {
     @PostMapping
     public DailyPlan addMealToPlan(@RequestBody DailyPlan newPlanItem) {
         return dailyPlanRepository.save(newPlanItem);
+    }
+
+    // Fetch today's plan items for a specific user
+    @GetMapping
+    public List<DailyPlan> getTodaysPlan(@RequestParam Long userId) {
+        return dailyPlanRepository.findByUserIdAndPlanDate(userId, java.time.LocalDate.now());
     }
 
     // Deletes meal from plan

@@ -31,18 +31,6 @@
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.width-home {
-  max-width: 450px;
-}
-
-.width-meals {
-  max-width: 1100px;
-}
-
-.width-plan {
-  max-width: 850px;
-}
-
 .snack-form {
   font-size: 1.125rem;
 }
@@ -78,7 +66,8 @@ button {
   transition: 0.2s ease;
 }
 
-button:hover {
+button:hover,
+.btn-green:hover {
   background-color: #dfeafd;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);

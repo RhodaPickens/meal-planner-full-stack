@@ -1,24 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SnackForm from "../components/SnackForm.jsx";
-import { snacks } from "../data/snacks.js";
 
 export default function Dashboard() {
+  const [meals, setMeals] = useState([]);
   const [results, setResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [calories, setCalories] = useState("150");
-  const [hunger, setHunger] = useState("medium"); // use hunger-satiety scale
+  const [calories, setCalories] = useState("250");
+  const [mealType, setMealType] = useState("SNACK");
 
-  function generateSnacks() {
+  useEffect(() => {
+    fetch("http://localhost:8080/api/meals?userId=1")
+      .then((res) => res.json())
+      .then((data) => setMeals(data))
+      .catch((err) => console.error("Error loading meals for dashboard:", err));
+  }, []);
+
+  function generateMeals() {
     setHasSearched(true);
-    // keeps only snacks that are less than or equal to input calorie limit
-    const filtered = snacks.filter((snack) => snack.calories <= calories);
-
-    // keeps only snacks that match input hunger level
-    const matched = filtered.filter((snack) => snack.filling === hunger);
-
-    // take the top 5 results and save to state
-    setResults(matched.slice(0, 5));
+    const typeMatched = meals.filter((meal) => meal.mealType === mealType);
+    const calorieMatched = typeMatched.filter(
+      (meal) => meal.calories <= Number(calories),
+    );
+    setResults(calorieMatched.slice(0, 5));
   }
+
+  const handleSaveToPlan = (meal) => {
+    console.log("Saving to today's plan", meal);
+    const planData = {
+      user: { id: 1 },
+      idea: { id: meal.id },
+    };
+
+    fetch("http://localhost:8080/api/plans", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(planData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to save meal to Today's Plan");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        alert(`${meal.title} added to Today's Plan!`);
+      })
+      .catch((err) => {
+        console.error("Error saving to plan:", err);
+        alert(`Could not add to plan: ${err.message}`);
+      });
+  };
 
   return (
     <div className="card">
@@ -26,17 +57,30 @@ export default function Dashboard() {
       <SnackForm
         calories={calories}
         setCalories={setCalories}
-        hunger={hunger}
-        setHunger={setHunger}
+        mealType={mealType}
+        setMealType={setMealType}
       />
       <div className="button-container">
-        <button onClick={generateSnacks}>Suggest Snacks</button>
+        <button onClick={generateMeals}>Suggest Meals</button>
       </div>
-      {hasSearched && results.length === 0 ? <p>"No snacks found 🙁"</p> : null}
-      <ul className="suggestions">
-        {results.map((snack, index) => (
-          <li key={index}>
-            {snack.name} ({snack.calories} cal)
+      {hasSearched && results.length === 0 ? (
+        <p>"No matching meals found 🙁"</p>
+      ) : null}
+      <ul className="suggestions mt-3">
+        {results.map((meal) => (
+          <li
+            key={meal.id}
+            className="d-flex justify-content-between align-items-center gap-2"
+          >
+            <div>
+              {meal.title} ({meal.calories} kcal)
+            </div>
+            <button
+              className="btn btn-green"
+              onClick={() => handleSaveToPlan(meal)}
+            >
+              Add to Today's Plan
+            </button>
           </li>
         ))}
       </ul>

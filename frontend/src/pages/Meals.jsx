@@ -137,10 +137,7 @@ export default function Meals() {
 
       {/* Add New Meal Form */}
       {showForm && (
-        <form
-          onSubmit={handleSave}
-          className="snack-form mt-4 border p-3 rounded"
-        >
+        <form onSubmit={handleSave} className="snack-form mt-4 p-3 rounded">
           <h3>{editingMeal ? "Edit Meal" : "Add New Meal"}</h3>
 
           <div className="form-group">

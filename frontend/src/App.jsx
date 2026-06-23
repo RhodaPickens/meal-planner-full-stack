@@ -20,7 +20,7 @@ function App() {
             <Route
               path="/"
               element={
-                <div className="width-home">
+                <div>
                   <Dashboard />
                 </div>
               }
@@ -28,7 +28,7 @@ function App() {
             <Route
               path="/meals"
               element={
-                <div className="width-meals">
+                <div>
                   <Meals />
                 </div>
               }
@@ -36,7 +36,7 @@ function App() {
             <Route
               path="/todays-plan"
               element={
-                <div className="width-plan">
+                <div>
                   <TodaysPlan />
                 </div>
               }
@@ -44,7 +44,7 @@ function App() {
             <Route
               path="/recent-meals"
               element={
-                <div className="width-meals">
+                <div>
                   <TodaysPlan />
                 </div>
               }
@@ -52,7 +52,7 @@ function App() {
             <Route
               path="/most-used"
               element={
-                <div className="width-meals">
+                <div>
                   <TodaysPlan />
                 </div>
               }
