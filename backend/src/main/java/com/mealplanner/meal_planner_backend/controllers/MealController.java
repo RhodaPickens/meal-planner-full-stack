@@ -6,6 +6,7 @@ import com.mealplanner.meal_planner_backend.entities.MealIdea;
 import com.mealplanner.meal_planner_backend.entities.MealType;
 import com.mealplanner.meal_planner_backend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,4 +47,37 @@ public class MealController {
 
         return userMeals;
     }
+
+    // Create new meal
+    @PostMapping
+    public ResponseEntity<MealIdea> createMeal(@RequestParam Long userId, @RequestBody MealIdea newMeal) {
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        newMeal.setUser(currentUser);
+        MealIdea savedMeal =  mealIdeaRepository.save(newMeal);
+        return ResponseEntity.ok(savedMeal);
+    }
+
+    // Update meal
+    @PutMapping("/{id}")
+    public ResponseEntity<MealIdea> updateMeal(@PathVariable Long id, @RequestBody MealIdea updatedMealDetails) {
+        MealIdea existingMeal = mealIdeaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Meal not found with id: " + id));
+        existingMeal.setTitle(updatedMealDetails.getTitle());
+        existingMeal.setCalories(updatedMealDetails.getCalories());
+        existingMeal.setMealType(updatedMealDetails.getMealType());
+
+        MealIdea savedMeal = mealIdeaRepository.save(existingMeal);
+        return ResponseEntity.ok(savedMeal);
+    }
+
+    // Delete meal
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMeal(@PathVariable Long id) {
+        MealIdea existingMeal = mealIdeaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Meal not found with id: " + id));
+        mealIdeaRepository.delete(existingMeal);
+        return ResponseEntity.noContent().build();
+    }
+
 }

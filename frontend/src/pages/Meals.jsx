@@ -69,15 +69,38 @@ export default function Meals() {
     const mealData = { title, calories: Number(calories), mealType };
 
     if (editingMeal) {
-      console.log(`Updating meal ID ${editingMeal.id}`, mealData);
-      setMeals(
-        meals.map((m) => (m.id === editingMeal.id ? { ...m, ...mealData } : m)),
-      );
+      fetch(`http://localhost:8080/api/meals/${editingMeal.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(mealData),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Oops couldn't update meal");
+          return response.json();
+        })
+        .then((updatedMeal) => {
+          setMeals(
+            meals.map((m) => (m.id === editingMeal.id ? updatedMeal : m)),
+          );
+          handleCancel();
+        })
+        .catch((err) => alert(`couldn't update meal: ${err.message}`));
     } else {
-      console.log("Creating new meal:", mealData);
-      setMeals([...meals, { id: Date.now(), ...mealData }]);
+      fetch("http://localhost:8080/api/meals?userId=1", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(mealData),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("couldn't save new meal");
+          return response.json();
+        })
+        .then((newMealFromServer) => {
+          setMeals([...meals, newMealFromServer]);
+          handleCancel();
+        })
+        .catch((err) => alert(`Oops couldn't save: ${err.message}`));
     }
-    handleCancel();
   };
 
   const handleDeleteClick = (mealId) => {
@@ -86,8 +109,14 @@ export default function Meals() {
     );
 
     if (confirmDelete) {
-      console.log(`Deleting meal ID: ${mealId}`);
-      setMeals(meals.filter((meal) => meal.id != mealId));
+      fetch(`http://localhost:8080/api/meals/${mealId}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Oops couldn't delete");
+          setMeals(meals.filter((meal) => meal.id != mealId));
+        })
+        .catch((err) => alert(`couldn't delete meal: ${err.message}`));
     }
   };
 
