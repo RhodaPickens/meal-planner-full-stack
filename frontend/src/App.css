@@ -84,6 +84,11 @@ button:hover {
   transform: translateY(-1px);
 }
 
+.btn-green {
+  background-color: #dbead2;
+  border: 1px solid #d1d5db;
+}
+
 .suggestions {
   font-size: 1.125rem;
   list-style-type: none;
