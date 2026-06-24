@@ -4,6 +4,7 @@ export default function Meals() {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // form logic
   const [showForm, setShowForm] = useState(false);
@@ -120,6 +121,10 @@ export default function Meals() {
     }
   };
 
+  const filteredMeals = meals.filter((meal) =>
+    meal.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   if (loading)
     return <div className="text-center p-5">Loading your menu...</div>;
   if (error) return <div className="text-center p-5">Error: {error}</div>;
@@ -134,6 +139,19 @@ export default function Meals() {
           </button>
         )}
       </div>
+
+      {/* Search bar */}
+      {!showForm && (
+        <div className="mt-4 px-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search meals by title..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          ></input>
+        </div>
+      )}
 
       {/* Add New Meal Form */}
       {showForm && (
@@ -202,7 +220,7 @@ export default function Meals() {
             </tr>
           </thead>
           <tbody>
-            {meals.map((meal) => (
+            {filteredMeals.map((meal) => (
               <tr key={meal.id}>
                 <td>{meal.title}</td>
                 <td>{meal.calories} kcal</td>
@@ -229,7 +247,7 @@ export default function Meals() {
 
       {/* Mobile view */}
       <div className="d-md-none mt-4">
-        {meals.map((meal) => (
+        {filteredMeals.map((meal) => (
           <div key={meal.id} className="border rounded p-3 mb-3 bg-light">
             <div className="d-flex justify-content-between align-items-center">
               <h5>{meal.title}</h5>
