@@ -20,7 +20,7 @@ public class MostUsedMealsReport extends Report {
     }
 
     @Override
-    public List<List<Object>> generateReportData() {
+    public List<List<Object>> getReportData() {
         List<List<Object>> rows = new ArrayList<>();
 
         mealCounts.forEach((title, count) -> {

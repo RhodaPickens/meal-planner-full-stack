@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Meals from "./pages/Meals";
 import TodaysPlan from "./pages/TodaysPlan";
+import RecentMeals from "./pages/RecentMeals";
+import MostUsedMeals from "./pages/MostUsedMeals";
 import "./App.css";
 
 function App() {
@@ -15,48 +17,13 @@ function App() {
       <div className="wrapper">
         <Navbar setIsLoginOpen={setIsLoginOpen} />
 
-        <main className="main-content">
+        <main className="main-content container">
           <Routes>
-            <Route
-              path="/"
-              element={
-                <div>
-                  <Dashboard />
-                </div>
-              }
-            />
-            <Route
-              path="/meals"
-              element={
-                <div>
-                  <Meals />
-                </div>
-              }
-            />
-            <Route
-              path="/todays-plan"
-              element={
-                <div>
-                  <TodaysPlan />
-                </div>
-              }
-            />
-            <Route
-              path="/recent-meals"
-              element={
-                <div>
-                  <TodaysPlan />
-                </div>
-              }
-            />
-            <Route
-              path="/most-used"
-              element={
-                <div>
-                  <TodaysPlan />
-                </div>
-              }
-            />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/meals" element={<Meals />} />
+            <Route path="/todays-plan" element={<TodaysPlan />} />
+            <Route path="/recent-meals" element={<RecentMeals />} />
+            <Route path="/most-used" element={<MostUsedMeals />} />
           </Routes>
         </main>
 

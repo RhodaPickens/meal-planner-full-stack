@@ -29,6 +29,8 @@
   box-shadow:
     0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
 }
 
 .snack-form {
@@ -67,7 +69,8 @@ button {
 }
 
 button:hover,
-.btn-green:hover {
+.btn-green:hover,
+.button-white:hover {
   background-color: #dfeafd;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
@@ -76,6 +79,10 @@ button:hover,
 .btn-green {
   background-color: #dbead2;
   border: 1px solid #d1d5db;
+}
+
+.button-white {
+  border: 1px solid rgb(118, 118, 118);
 }
 
 .suggestions {
@@ -109,4 +116,14 @@ button:hover,
 
 .btn-login-text:hover {
   box-shadow: none;
+}
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+  .card-narrow {
+    max-width: 450px;
+  }
+  .card-wide {
+    max-width: 900px;
+  }
 }

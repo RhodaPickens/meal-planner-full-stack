@@ -20,6 +20,6 @@ public abstract class Report {
     // which columns to create
     public abstract List<String> getColumns();
     // fills in rows
-    public abstract List<List<Object>> generateReportData();
+    public abstract List<List<Object>> getReportData();
 
 }

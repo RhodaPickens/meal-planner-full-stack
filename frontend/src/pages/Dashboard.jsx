@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SnackForm from "../components/SnackForm.jsx";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [meals, setMeals] = useState([]);
@@ -7,6 +8,7 @@ export default function Dashboard() {
   const [hasSearched, setHasSearched] = useState(false);
   const [calories, setCalories] = useState("250");
   const [mealType, setMealType] = useState("SNACK");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8080/api/meals?userId=1")
@@ -43,7 +45,10 @@ export default function Dashboard() {
         return response.json();
       })
       .then((data) => {
-        alert(`${meal.title} added to Today's Plan!`);
+        setSuccessMessage(`${meal.title} added to Today's Plan!`);
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
       })
       .catch((err) => {
         console.error("Error saving to plan:", err);
@@ -52,7 +57,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="card">
+    <div className="card card-narrow">
       <h1>Meal Planner</h1>
       <SnackForm
         calories={calories}
@@ -84,6 +89,17 @@ export default function Dashboard() {
           </li>
         ))}
       </ul>
+      {successMessage && (
+        <div className="text-center py-2 mt-3">{successMessage}</div>
+      )}
+      <div className="d-flex gap-3 mt-5 w-100">
+        <Link to="/recent-meals" className="btn button-white flex-fill">
+          Recent Meals
+        </Link>
+        <Link to="/most-used" className="btn button-white flex-fill">
+          Most Used Meals
+        </Link>
+      </div>
     </div>
   );
 }

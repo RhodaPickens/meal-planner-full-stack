@@ -23,7 +23,7 @@ public class TodaysPlanReport extends Report{
 
     // Fills rows
     @Override
-    public List<List<Object>> generateReportData() {
+    public List<List<Object>> getReportData() {
         List<List<Object>> rows = new ArrayList<>();
 
         for (DailyPlan plan : plans) {

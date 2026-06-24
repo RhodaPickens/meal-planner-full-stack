@@ -49,11 +49,12 @@ export default function TodaysPlan() {
     return <div className="text-center p-5">Loading today's plan...</div>;
 
   return (
-    <div className="card">
+    <div className="card card-wide">
       <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-4">
         <h1>Today's Plan</h1>
         <h4>Total: {totalCalories} kcal</h4>
       </div>
+      <p className="mt-2 text-center">Go to Dashboard to add meals</p>
       {mealCategories.map((category) => {
         const categoryItems = planItems.filter(
           (item) => item.idea?.mealType === category,
@@ -61,7 +62,7 @@ export default function TodaysPlan() {
         if (categoryItems.length === 0) return null;
 
         return (
-          <div key={category} className="mt-4">
+          <div key={category} className="mt-3">
             <h3>{formatMealType(category)}</h3>
 
             <div className="d-none d-md-block mt-4">

@@ -125,7 +125,7 @@ export default function Meals() {
   if (error) return <div className="text-center p-5">Error: {error}</div>;
 
   return (
-    <div className="card">
+    <div className="card card-wide">
       <div className="d-flex flex-column align-items-center">
         <h1>Manage Meals</h1>
         {!showForm && (
@@ -199,7 +199,6 @@ export default function Meals() {
               <th>Meal Name</th>
               <th>Calories</th>
               <th>Meal Type</th>
-              <th className="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
