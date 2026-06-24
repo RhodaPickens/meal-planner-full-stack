@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Meals from "./pages/Meals";
@@ -13,18 +13,14 @@ function App() {
   const [modalMode, setModalMode] = useState("login"); // login or signup
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationError, setValidationError] = useState("");
-  const [email, setEmail] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleValidation = (e) => {
     e.preventDefault();
     setValidationError("");
 
-    // check email
-    if (!email.includes("@") || !email.includes(".")) {
-      setValidationError("Please enter a valid email address");
-      return;
-    }
     // check password length
     if (password.length < 6 || password.length > 25) {
       setValidationError("Password must be between 6 and 25 characters");
@@ -36,16 +32,45 @@ function App() {
       return;
     }
 
-    setIsLoginOpen(false);
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    const endpoint = modalMode === "login" ? "/login" : "/register";
+
+    fetch(`http://localhost:8080/api/auth${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: usernameInput, password: password }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Invalid username or password");
+        }
+        return modalMode === "login" ? response.json() : response.text();
+      })
+      .then((data) => {
+        if (modalMode === "login") {
+          alert(`Welcome back ${data.username}`);
+          setCurrentUser(data);
+        } else {
+          alert(data);
+        }
+
+        setIsLoginOpen(false);
+        setUsernameInput("");
+        setPassword("");
+        setConfirmPassword("");
+      })
+      .catch((err) => {
+        setValidationError(err.message);
+      });
   };
 
   return (
     <Router>
       <div className="wrapper">
-        <Navbar setIsLoginOpen={setIsLoginOpen} />
+        <Navbar
+          setIsLoginOpen={setIsLoginOpen}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />
 
         <main className="main-content container">
           <Routes>
@@ -60,7 +85,10 @@ function App() {
         {isLoginOpen && (
           <div className="modal-overlay">
             <div className="width-home">
-              <form onSubmit={handleValidation} className="card p-4">
+              <form
+                onSubmit={handleValidation}
+                className="card card-narrow p-4"
+              >
                 <h3>{modalMode === "login" ? "Log In" : "Sign Up"}</h3>
                 {validationError && (
                   <div className="alert alert-danger p-2 text-center">
@@ -71,12 +99,12 @@ function App() {
                   /* --- Login View --- */
                   <>
                     <div className="form-group">
-                      <label>Enter email:</label>
+                      <label>Enter username:</label>
                       <input
                         className="input-box"
                         type="text"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}
                         required
                       />
                     </div>
@@ -105,12 +133,12 @@ function App() {
                   /* --- Sign Up View --- */
                   <>
                     <div className="form-group">
-                      <label>Enter email:</label>
+                      <label>Enter username:</label>
                       <input
                         className="input-box"
                         type="text"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}
                         required
                       />
                     </div>

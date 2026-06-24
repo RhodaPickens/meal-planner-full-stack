@@ -49,7 +49,7 @@ export default function TodaysPlan() {
     return <div className="text-center p-5">Loading today's plan...</div>;
 
   return (
-    <div className="card card-wide">
+    <div className="card card-med">
       <div className="d-flex justify-content-between align-items-center border-bottom pb-2 gap-4">
         <h1>Today's Plan</h1>
         <h4>Total: {totalCalories} kcal</h4>

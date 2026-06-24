@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar({ setIsLoginOpen }) {
+export default function Navbar({
+  setIsLoginOpen,
+  currentUser,
+  setCurrentUser,
+}) {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
 
   return (
@@ -46,21 +50,34 @@ function Navbar({ setIsLoginOpen }) {
               </Link>
             </li>
           </ul>
-          <div className="d-flex pt-2 pt-lg-0">
-            <button
-              className="btn btn-outline-dark rounded-pill px-3"
-              onClick={() => {
-                setIsLoginOpen(true);
-                setIsNavExpanded(false);
-              }}
-            >
-              Log In / Sign Up
-            </button>
+          <div className="d-flex align-items-center gap-3 pt-2 pt-lg-0pt-2 pt-lg-0">
+            {currentUser ? (
+              <>
+                <span>Hello, {currentUser.username}!</span>
+                <button
+                  className="btn button-white rounded-pill text-dark"
+                  onClick={() => {
+                    setCurrentUser(null);
+                    setIsNavExpanded(false);
+                  }}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button
+                className="btn btn-outline-dark rounded-pill px-3"
+                onClick={() => {
+                  setIsLoginOpen(true);
+                  setIsNavExpanded(false);
+                }}
+              >
+                Log In / Sign Up
+              </button>
+            )}
           </div>
         </div>
       </div>
     </nav>
   );
 }
-
-export default Navbar;

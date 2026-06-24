@@ -1,7 +1,7 @@
 package com.mealplanner.meal_planner_backend.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +26,7 @@ public class User {
     private String username;
 
     @NotBlank(message = "Password cannot be empty")
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 
