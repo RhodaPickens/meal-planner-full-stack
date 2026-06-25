@@ -27,6 +27,11 @@ public class AuthController {
             return "This username is already registered";
         }
 
+        //Check if password length is valid
+        if (user.getPassword() == null || user.getPassword().length() < 6 || user.getPassword().length() > 25) {
+            return "Password must be between 6 and 25 characters";
+        }
+
         String secureHashedPassword = encoder.encode(user.getPassword());
         user.setPassword(secureHashedPassword);
         userRepository.save(user);
