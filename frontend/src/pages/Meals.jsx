@@ -32,7 +32,9 @@ export default function Meals({ currentUser }) {
 
     setLoading(true);
 
-    fetch(`http://localhost:8080/api/meals?userId=${currentUser.id}`)
+    fetch(
+      `https://backend-production-cd17.up.railway.app/api/meals?userId=${currentUser.id}`,
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("failed to fetch meals");
@@ -78,11 +80,14 @@ export default function Meals({ currentUser }) {
     const mealData = { title, calories: Number(calories), mealType };
 
     if (editingMeal) {
-      fetch(`http://localhost:8080/api/meals/${editingMeal.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mealData),
-      })
+      fetch(
+        `https://backend-production-cd17.up.railway.app/api/meals/${editingMeal.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mealData),
+        },
+      )
         .then((response) => {
           if (!response.ok) throw new Error("Oops couldn't update meal");
           return response.json();
@@ -95,11 +100,14 @@ export default function Meals({ currentUser }) {
         })
         .catch((err) => alert(`couldn't update meal: ${err.message}`));
     } else {
-      fetch(`http://localhost:8080/api/meals?userId=${currentUser.id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mealData),
-      })
+      fetch(
+        `https://backend-production-cd17.up.railway.app/api/meals?userId=${currentUser.id}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mealData),
+        },
+      )
         .then((response) => {
           if (!response.ok) throw new Error("couldn't save new meal");
           return response.json();
@@ -118,9 +126,12 @@ export default function Meals({ currentUser }) {
     );
 
     if (confirmDelete) {
-      fetch(`http://localhost:8080/api/meals/${mealId}`, {
-        method: "DELETE",
-      })
+      fetch(
+        `https://backend-production-cd17.up.railway.app/api/meals/${mealId}`,
+        {
+          method: "DELETE",
+        },
+      )
         .then((response) => {
           if (!response.ok) throw new Error("Oops couldn't delete");
           setMeals(meals.filter((meal) => meal.id != mealId));

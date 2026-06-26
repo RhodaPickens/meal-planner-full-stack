@@ -12,7 +12,7 @@ export default function RecentMeals({ currentUser }) {
       return;
     }
     fetch(
-      `http://localhost:8080/api/reports/recent-meals?userId=${currentUser.id}`,
+      `https://backend-production-cd17.up.railway.app/api/reports/recent-meals?userId=${currentUser.id}`,
     )
       .then((response) => {
         if (!response.ok) {

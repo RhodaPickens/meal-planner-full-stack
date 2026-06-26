@@ -16,7 +16,9 @@ export default function Dashboard({ currentUser }) {
       return;
     }
 
-    fetch(`http://localhost:8080/api/meals?userId=${currentUser.id}`)
+    fetch(
+      `https://backend-production-cd17.up.railway.app/api/meals?userId=${currentUser.id}`,
+    )
       .then((res) => res.json())
       .then((data) => setMeals(data))
       .catch((err) => console.error("Error loading meals for dashboard:", err));
@@ -44,7 +46,7 @@ export default function Dashboard({ currentUser }) {
       idea: { id: meal.id },
     };
 
-    fetch("http://localhost:8080/api/plans", {
+    fetch("https://backend-production-cd17.up.railway.app/api/plans", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(planData),

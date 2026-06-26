@@ -13,7 +13,7 @@ export default function MostUsedMeals({ currentUser }) {
     }
 
     fetch(
-      `http://localhost:8080/api/reports/most-used?userId=${currentUser.id}`,
+      `https://backend-production-cd17.up.railway.app/api/reports/most-used?userId=${currentUser.id}`,
     )
       .then((response) => {
         if (!response.ok) {

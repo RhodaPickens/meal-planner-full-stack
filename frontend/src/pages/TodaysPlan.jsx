@@ -14,7 +14,9 @@ export default function TodaysPlan({ currentUser }) {
       return;
     }
 
-    fetch(`http://localhost:8080/api/plans?userId=${currentUser.id}`)
+    fetch(
+      `https://backend-production-cd17.up.railway.app/api/plans?userId=${currentUser.id}`,
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load today's plan");
         return res.json();
@@ -30,7 +32,7 @@ export default function TodaysPlan({ currentUser }) {
   }, [currentUser]);
 
   const handleDeleteClick = (id) => {
-    fetch(`http://localhost:8080/api/plans/${id}`, {
+    fetch(`https://backend-production-cd17.up.railway.app/api/plans/${id}`, {
       method: "DELETE",
     })
       .then((res) => {

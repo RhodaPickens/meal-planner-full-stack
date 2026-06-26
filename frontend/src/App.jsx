@@ -35,11 +35,14 @@ function App() {
 
     const endpoint = modalMode === "login" ? "/login" : "/register";
 
-    fetch(`http://localhost:8080/api/auth${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: usernameInput, password: password }),
-    })
+    fetch(
+      `https://backend-production-cd17.up.railway.app/api/auth${endpoint}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: usernameInput, password: password }),
+      },
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Invalid username or password");
