@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function Meals() {
+export default function Meals({ currentUser }) {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +24,15 @@ export default function Meals() {
 
   // loads meals
   useEffect(() => {
-    fetch("http://localhost:8080/api/meals?userId=1")
+    if (!currentUser || !currentUser.id) {
+      setMeals([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
+    fetch(`http://localhost:8080/api/meals?userId=${currentUser.id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("failed to fetch meals");
@@ -40,7 +48,7 @@ export default function Meals() {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [currentUser]);
 
   // Form handlers
   const handleAddNewClick = () => {
@@ -87,7 +95,7 @@ export default function Meals() {
         })
         .catch((err) => alert(`couldn't update meal: ${err.message}`));
     } else {
-      fetch("http://localhost:8080/api/meals?userId=1", {
+      fetch(`http://localhost:8080/api/meals?userId=${currentUser.id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(mealData),

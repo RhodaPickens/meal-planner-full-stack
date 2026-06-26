@@ -31,14 +31,14 @@ public class ReportService {
     public Report getRecentMealsReport(Long userId) {
 
         // Gets past history
-        List<DailyPlan> allHistory = dailyPlanRepository.findAll();
+        List<DailyPlan> userHistory = dailyPlanRepository.findByUserId(userId);
         List<DailyPlan> recentTen = new ArrayList<>();
 
         // gets newest items from list
         int count = 0;
-        for (int i = allHistory.size() - 1; i >= 0; i--) {
+        for (int i = userHistory.size() - 1; i >= 0; i--) {
             if (count < 10) {
-                recentTen.add(allHistory.get(i));
+                recentTen.add(userHistory.get(i));
                 count++;
             } else {
                 break;
@@ -49,11 +49,11 @@ public class ReportService {
 
     public Report getMostUsedMealsReport(Long userId) {
 
-        List<DailyPlan> allHistory = dailyPlanRepository.findAll();
+        List<DailyPlan> userHistory = dailyPlanRepository.findByUserId(userId);
         Map<String, Long> mealCounts = new HashMap<>();
 
         // Count meals
-        for (DailyPlan plan : allHistory) {
+        for (DailyPlan plan : userHistory) {
             String title = plan.getIdea().getTitle();
 
             // if already have that title in hashmap then increment count

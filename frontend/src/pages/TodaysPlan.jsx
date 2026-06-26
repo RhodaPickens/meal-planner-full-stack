@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function TodaysPlan() {
+export default function TodaysPlan({ currentUser }) {
   const [planItems, setPlanItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -8,7 +8,13 @@ export default function TodaysPlan() {
 
   // Fetch today's plan entries
   useEffect(() => {
-    fetch("http://localhost:8080/api/plans?userId=1")
+    if (!currentUser || !currentUser.id) {
+      setPlanItems([]);
+      setLoading(false);
+      return;
+    }
+
+    fetch(`http://localhost:8080/api/plans?userId=${currentUser.id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load today's plan");
         return res.json();
@@ -21,7 +27,7 @@ export default function TodaysPlan() {
         console.error(err);
         setLoading(false);
       });
-  }, []);
+  }, [currentUser]);
 
   const handleDeleteClick = (id) => {
     fetch(`http://localhost:8080/api/plans/${id}`, {

@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import ReportTable from "../components/ReportTable";
 
-export default function MostUsedMeals() {
+export default function MostUsedMeals({ currentUser }) {
   const [report, setReport] = useState(null);
   const [error, setError] = useState(null);
 
   // loads meals
   useEffect(() => {
-    fetch("http://localhost:8080/api/reports/most-used?userId=1")
+    if (!currentUser || !currentUser.id) {
+      setReport(null);
+      return;
+    }
+
+    fetch(
+      `http://localhost:8080/api/reports/most-used?userId=${currentUser.id}`,
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("failed to fetch report");
@@ -20,7 +27,7 @@ export default function MostUsedMeals() {
       .catch((err) => {
         setError(err.message);
       });
-  }, []);
+  }, [currentUser]);
 
   if (error) return <div className="text-center p-5">Error: {error}</div>;
 

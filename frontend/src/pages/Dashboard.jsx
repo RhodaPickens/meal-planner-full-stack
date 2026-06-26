@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SnackForm from "../components/SnackForm.jsx";
 import { Link } from "react-router-dom";
 
-export default function Dashboard() {
+export default function Dashboard({ currentUser }) {
   const [meals, setMeals] = useState([]);
   const [results, setResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -11,11 +11,16 @@ export default function Dashboard() {
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/meals?userId=1")
+    if (!currentUser || !currentUser.id) {
+      setMeals([]);
+      return;
+    }
+
+    fetch(`http://localhost:8080/api/meals?userId=${currentUser.id}`)
       .then((res) => res.json())
       .then((data) => setMeals(data))
       .catch((err) => console.error("Error loading meals for dashboard:", err));
-  }, []);
+  }, [currentUser]);
 
   function generateMeals() {
     setHasSearched(true);
@@ -28,8 +33,14 @@ export default function Dashboard() {
 
   const handleSaveToPlan = (meal) => {
     console.log("Saving to today's plan", meal);
+
+    if (!currentUser || !currentUser.id) {
+      alert("You must be logged in to save meals to your plan!");
+      return;
+    }
+
     const planData = {
-      user: { id: 1 },
+      user: { id: currentUser.id },
       idea: { id: meal.id },
     };
 
@@ -68,6 +79,11 @@ export default function Dashboard() {
       <div className="button-container">
         <button onClick={generateMeals}>Suggest Meals</button>
       </div>
+      {(!currentUser || !currentUser.id) && (
+        <p className="mt-4 text-center">
+          Sign up or log in to add meals and get personalized meal suggestions!
+        </p>
+      )}
       {hasSearched && results.length === 0 ? (
         <p>"No matching meals found 🙁"</p>
       ) : null}
@@ -89,6 +105,7 @@ export default function Dashboard() {
           </li>
         ))}
       </ul>
+
       {successMessage && (
         <div className="text-center py-2 mt-3">{successMessage}</div>
       )}

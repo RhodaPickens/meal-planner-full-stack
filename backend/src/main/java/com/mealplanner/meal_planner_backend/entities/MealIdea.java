@@ -1,5 +1,6 @@
 package com.mealplanner.meal_planner_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="meal_ideas")
 @Getter
@@ -15,6 +19,15 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MealIdea {
+
+    public MealIdea(Long id, String title, MealType mealType, Integer calories, User user) {
+        this.id = id;
+        this.title = title;
+        this.mealType = mealType;
+        this.calories = calories;
+        this.user = user;
+        this.dailyPlans = new ArrayList<>();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +49,9 @@ public class MealIdea {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")   // foreign key
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "idea", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DailyPlan> dailyPlans;
 
 }

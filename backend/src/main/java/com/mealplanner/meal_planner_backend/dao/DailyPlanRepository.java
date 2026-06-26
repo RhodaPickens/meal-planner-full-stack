@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface DailyPlanRepository extends JpaRepository<DailyPlan, Long> {
 
+    List<DailyPlan> findByUserId(Long userId);
     // finds today's plan
     List<DailyPlan> findByUserIdAndPlanDate(Long userId, LocalDate planDate);
 }

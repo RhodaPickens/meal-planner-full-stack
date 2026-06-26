@@ -16,6 +16,7 @@ function App() {
   const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   const handleValidation = (e) => {
     e.preventDefault();
@@ -49,11 +50,14 @@ function App() {
         if (modalMode === "login") {
           alert(`Welcome back ${data.username}`);
           setCurrentUser(data);
+          setSignupSuccess(false);
+          setIsLoginOpen(false);
         } else {
-          alert(data);
+          setSignupSuccess(true);
+          setModalMode("login");
+          setIsLoginOpen(true);
         }
 
-        setIsLoginOpen(false);
         setUsernameInput("");
         setPassword("");
         setConfirmPassword("");
@@ -74,11 +78,23 @@ function App() {
 
         <main className="main-content container">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/meals" element={<Meals />} />
-            <Route path="/todays-plan" element={<TodaysPlan />} />
-            <Route path="/recent-meals" element={<RecentMeals />} />
-            <Route path="/most-used" element={<MostUsedMeals />} />
+            <Route path="/" element={<Dashboard currentUser={currentUser} />} />
+            <Route
+              path="/meals"
+              element={<Meals currentUser={currentUser} />}
+            />
+            <Route
+              path="/todays-plan"
+              element={<TodaysPlan currentUser={currentUser} />}
+            />
+            <Route
+              path="/recent-meals"
+              element={<RecentMeals currentUser={currentUser} />}
+            />
+            <Route
+              path="/most-used"
+              element={<MostUsedMeals currentUser={currentUser} />}
+            />
           </Routes>
         </main>
 
@@ -90,6 +106,15 @@ function App() {
                 className="card card-narrow p-4"
               >
                 <h3>{modalMode === "login" ? "Log In" : "Sign Up"}</h3>
+
+                {signupSuccess && modalMode === "login" && (
+                  <div className="alert alert-success p-2 text-center">
+                    <strong>Account created successfully!</strong>
+                    <br />
+                    Please log in to access your 5 starter meals
+                  </div>
+                )}
+
                 {validationError && (
                   <div className="alert alert-danger p-2 text-center">
                     {validationError}
@@ -122,8 +147,16 @@ function App() {
                     <p>
                       Don't have an account?{" "}
                       <button
+                        type="button"
                         className="btn btn-link btn-login-text"
-                        onClick={() => setModalMode("signup")}
+                        onClick={() => {
+                          setModalMode("signup");
+                          setUsernameInput("");
+                          setPassword("");
+                          setConfirmPassword("");
+                          setValidationError("");
+                          setSignupSuccess(false);
+                        }}
                       >
                         Sign Up
                       </button>
@@ -165,8 +198,15 @@ function App() {
                     <p>
                       Already have an account?{" "}
                       <button
+                        type="button"
                         className="btn btn-link btn-login-text"
-                        onClick={() => setModalMode("login")}
+                        onClick={() => {
+                          setModalMode("login");
+                          setUsernameInput("");
+                          setPassword("");
+                          setConfirmPassword("");
+                          setValidationError("");
+                        }}
                       >
                         Log In
                       </button>
@@ -181,6 +221,11 @@ function App() {
                   onClick={() => {
                     setIsLoginOpen(false);
                     setValidationError("");
+                    setModalMode("login");
+                    setUsernameInput("");
+                    setPassword("");
+                    setConfirmPassword("");
+                    setSignupSuccess(false);
                   }}
                 >
                   Close
