@@ -5,7 +5,7 @@ import com.mealplanner.meal_planner_backend.services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/reports")
 public class ReportController {
