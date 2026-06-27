@@ -13,7 +13,7 @@ export default function Meals({ currentUser }) {
   // form inputs
   const [title, setTitle] = useState("");
   const [calories, setCalories] = useState("");
-  const [mealType, setMealType] = useState("Breakfast");
+  const [mealType, setMealType] = useState("BREAKFAST");
 
   // format enum to lowercase
   const formatMealType = (type) => {
@@ -57,7 +57,7 @@ export default function Meals({ currentUser }) {
     setEditingMeal(null);
     setTitle("");
     setCalories("");
-    setMealType("Breakfast");
+    setMealType("BREAKFAST");
     setShowForm(true);
   };
 
@@ -65,7 +65,7 @@ export default function Meals({ currentUser }) {
     setEditingMeal(meal);
     setTitle(meal.title);
     setCalories(meal.calories);
-    setMealType(meal.mealType || "Breakfast");
+    setMealType(meal.mealType || "BREAKFAST");
     setShowForm(true);
   };
 
